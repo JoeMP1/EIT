@@ -40,13 +40,21 @@ let answers = {}
 function saveAns(){
     let selectedAns = [];
     checkbox.forEach(box => {
+        let Number_Value = box.parentElement.parentElement.querySelector(".Number-value").value
         if(box.checked){
+            console.log(Number_Value)
             console.log(box.value);
             selectedAns.push(box.value);
+            selectedAns.push(Number_Value)
+            console.log("Selected answer: " + selectedAns)
+            
         }
     })
-    answers[questions[question_No].key] = selectedAns;
+    //THIS IS WHERE I LEFT OFF, TRYING TO CREATE AND OBJECT TO STORE ANSWERS
+    answers[questions[question_No].key] = {}
+    //answers[questions[question_No].key] = selectedAns;
     console.log("Answers: " + answers[questions[question_No].key]);
+    console.log("Answer: " + answers[questions[question_No].key])
 }
 
 start_btn.addEventListener("click", e =>{
@@ -75,10 +83,18 @@ function isCheck(){
         let number_input = box.parentElement.parentElement.querySelector(".Value") //goes till <div class = "Options"> and then go class = ".Value"
         if(box.checked){
             number_input.style.display = "block";
+            //console.log(box.value);
+            
+            if(box.value == "I dont eat meat")
+            {
+                number_input.style.display = "none";
+
+            }
         }
         else{
             number_input.style.display = "none";
         }
+        
     })
 }
 
