@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>EIT</title>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <script src="script.js" defer></script>
+        <div class="HomePage">
+            <h1>Environment impact</h1>
+            <p>Want to track your impact on the environment? Click the button below to start!</p>
+            <button class="start">Start</button>
+        </div>
+        <div class = "Questions-container">
+            <div class = "Questions">
+                <h2>How do you travel?</h2>
+            </div>
+            <div class = "Options-container">
+                <div class = "Options">
+                    <label>
+                        <input value="Car" type="checkbox" class="check" onclick="isCheck()">
+                        <span>Car</span>
+                    </label>
+                    <label class = "Value">
+                        <input type="number" class = "Number-value">
+                        <br>
+                        <span>How many Km per day? </span>
+                    </label >
+                </div>
+                <div class = "Options">
+                    <label>
+                        <input value = "Bus" type="checkbox" class="check"onclick="isCheck()">
+                        <span>Bus</span>
+                    </label>
+                    <label class = "Value">
+                        <input type="number" class = "Number-value">
+                        <br>
+                        <span>How many Km per day? </span>
+                    </label >
+                </div>
+                <div class = "Options">
+                    <label>
+                        <input value = "Train" type="checkbox" class="check" onclick="isCheck()">
+                        <span>Train</span>
+                        
+                    </label>
+                    <label class = "Value">
+                        <input type="number" class = "Number-value">
+                        <br>
+                        <span>How many Km per day? </span>
+                    </label >
+                </div>
+                <div class = "Options">
+                    <label>
+                        <input value = "Walk" type="checkbox" class="check"onclick="isCheck()">
+                        <span>Walk</span>
+                    </label>
+                    <label class = "Value">
+                        <input type="number" class = "Number-value">
+                        <br>
+                        <span>How many Km per day? </span>
+                    </label >
+                </div>
+            </div>
+            
+            <div class = "Next">
+                <button class = "next">Next</button>
+            </div>
+        </div>
+    </body>
+</html>

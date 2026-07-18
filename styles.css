@@ -1,0 +1,102 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #a8d5a2;
+
+}
+
+.HomePage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+p{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-weight: lighter;
+}
+button{
+    border-radius: 0.75em;
+    background-color: #60ff05;
+    --outline-color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid var(#000000);
+    cursor: pointer;
+    color:var(--outline-color);
+    padding: 0.75em 1.5em;
+    transform: translateY(-0.2em);
+    transition: transform 0.1s ease;
+}
+
+.start:hover{
+    transform: translateY(-0.33em);
+}
+
+.start:active{
+    transform: translateY(0);
+}
+
+.Questions-container{
+    display: none; /*should be flex and none only */
+    flex-direction: column;
+    
+   
+    width: 700px;
+    height: 800px;
+    border-radius: 8px;
+    background-color:white;
+}
+.Questions{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.check{
+   /* opacity: 0;*/
+    transform-origin: 0px 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+    box-shadow: black;
+    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    background-color: rgba(16, 16, 16, 0.5);
+
+}
+
+.Options{
+    width: 100%; /*100% of width/height ensures that the entire area of the parent class (which in this case is Question-Contanier*/
+    height: 100%;/*is occupied*/
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.Next{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.next:hover{
+    transform: translateY(-0.33em);
+}
+.Value{
+    display: none;
+}
+.Options-container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    
+}
