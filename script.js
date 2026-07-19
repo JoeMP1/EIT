@@ -38,23 +38,30 @@ const questions = [
 let answers = {}
 
 function saveAns(){
-    let selectedAns = [];
+    //let selectedAns = [];
     checkbox.forEach(box => {
         let Number_Value = box.parentElement.parentElement.querySelector(".Number-value").value
         if(box.checked){
-            console.log(Number_Value)
-            console.log(box.value);
-            selectedAns.push(box.value);
-            selectedAns.push(Number_Value)
-            console.log("Selected answer: " + selectedAns)
+            //console.log(Number_Value)
+            //console.log(box.value);
+            //selectedAns.push(box.value);
+            //selectedAns.push(Number_Value)
+            answers[questions[question_No].key] = {}
+            answers[questions[question_No].key].options = box.value
+            answers[questions[question_No].key].value = Number_Value //eg. answers.travel.value => answers{
+        //                                                                              travel {
+        //                                                                                     option: car,
+        //                                                                                     value: 25
+        //                                                                                  }
+        //                                                                              }
+            console.log("Answers: " + answers[questions[question_No].key].options);
+            console.log("Value: " + answers[questions[question_No].key].value);
+            console.dir(answers)// very useful for displaying full object
             
         }
+        
     })
-    //THIS IS WHERE I LEFT OFF, TRYING TO CREATE AND OBJECT TO STORE ANSWERS
-    answers[questions[question_No].key] = {}
-    //answers[questions[question_No].key] = selectedAns;
-    console.log("Answers: " + answers[questions[question_No].key]);
-    console.log("Answer: " + answers[questions[question_No].key])
+    
 }
 
 start_btn.addEventListener("click", e =>{
