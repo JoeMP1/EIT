@@ -42,10 +42,7 @@ function saveAns(){
     checkbox.forEach(box => {
         let Number_Value = box.parentElement.parentElement.querySelector(".Number-value").value
         if(box.checked){
-            //console.log(Number_Value)
-            //console.log(box.value);
-            //selectedAns.push(box.value);
-            //selectedAns.push(Number_Value)
+            
             answers[questions[question_No].key] = {}
             answers[questions[question_No].key].options = box.value
             answers[questions[question_No].key].value = Number_Value //eg. answers.travel.value => answers{
@@ -91,7 +88,7 @@ function isCheck(){
         if(box.checked){
             number_input.style.display = "block";
             //console.log(box.value);
-            
+            console.log(number_input);
             if(box.value == "I dont eat meat")
             {
                 number_input.style.display = "none";
@@ -109,6 +106,8 @@ function next_question(ques_no){
     for(let i = 0; i < Options.length; i++){
         let checkboxLabel = Options[i].querySelector("span");
         let checkbox2 = Options[i].querySelector(".check");
+        let number_input = Options[i].querySelector(".Number-value");
+        let Value_select = Options[i].querySelector(".Value");
         let inputLabel = Options[i].querySelector(".Value").querySelector("span"); //goes to each options and go to class = "Value" and under that, goes to <span>
         if(questions[ques_no].options[i] ){
             Options[i].style.display = "";
@@ -118,6 +117,9 @@ function next_question(ques_no){
             checkboxLabel.textContent = questions[ques_no].options[i];
             checkbox2.value = questions[ques_no].options[i];
             checkbox2.checked = false;
+            number_input.value = "0";
+            
+            Value_select.style.display = "";
         }
         else{
             //checkboxLabel.style.display = "none";
