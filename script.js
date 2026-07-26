@@ -1,6 +1,6 @@
-let body = document.body
+let body = document.body;
 let Display = document.querySelector(".Questions-container");
-let options_container = document.querySelector(".Options-container")
+let options_container = document.querySelector(".Options-container");
 let start_btn = document.querySelector(".start");
 let next_btn = document.querySelector(".next");
 let Questions = document.querySelector("h2");
@@ -13,7 +13,6 @@ const questions = [
     {
         key:"travel",
         question:"How do you travel daily?",
-        //options: ["Car","Bus", "Train", "Walk"],
         options: [
             {
                 text: "Car",
@@ -39,7 +38,6 @@ const questions = [
     {
         key:"food",
         question:"How often do you eat meat?",
-        //options: ["Almost everyday", "Few times per month", "Few times per year", "I dont eat meat"],
         options: [
             {
                 text: "Almost everyday",
@@ -64,7 +62,7 @@ const questions = [
     {
         key:"recycle",
         question:"Do you recycle?",
-        //options: ["Yes", "No"]
+        
         options:[
             {
                 text: "Yes",
@@ -75,12 +73,12 @@ const questions = [
                 text: "No",
                 need_input: false,
             }
-        ]
+        ],
+        input_Text: ""
     },
     {
         key: "test",
         question:"Testing if 4 options work",
-        //options: ["YIPPIE", " LETS GO", "BROSKIE"]
         options:[
             {
                 text: "YIPPIE",
@@ -104,7 +102,7 @@ let answers = {}
 
 function saveAns(){
     //let selectedAns = [];
-    checkbox.forEach(box => {
+    checkbox.forEach((box,index) => {
         let Number_Value = box.parentElement.parentElement.querySelector(".Number-value").value
         if(box.checked){
             answers[questions[question_No].key] = {}
@@ -115,8 +113,9 @@ function saveAns(){
         //                                                                                     value: 25
         //                                                                                  }
         //                                                                              }
-            console.log("Answers: " + answers[questions[question_No].key].options);
+            console.log(answers[questions[question_No].key].options);
             console.log("Value: " + answers[questions[question_No].key].value);
+            
             console.dir(answers)// very useful for displaying full object
             
         }
@@ -147,27 +146,27 @@ next_btn.addEventListener("click", e=>{
 
 
 function isCheck(){
-    checkbox.forEach(box => {
+    checkbox.forEach((box,index) => {
         let number_input = box.parentElement.parentElement.querySelector(".Value") //goes till <div class = "Options"> and then go class = ".Value"
         if(box.checked){
-            number_input.style.display = "block";
-            //console.log(box.value);
-            console.log(number_input);
-            if(box.value == "I dont eat meat")
-            {
+            
+            //console.log(number_input);
+        
+            if(questions[question_No].options[index].need_input && questions[question_No].options[index] ){
+                number_input.style.display = "block";
+            }
+            else{
                 number_input.style.display = "none";
-
             }
         }
         else{
             number_input.style.display = "none";
         }
-        
     })
 }
 
 function next_question(ques_no){
-    console.log(Options.length)
+    //console.log(Options.length)
     for(let i = 0; i < Options.length; i++){
         let checkboxLabel = Options[i].querySelector("span");
         let checkbox2 = Options[i].querySelector(".check");
@@ -176,17 +175,17 @@ function next_question(ques_no){
         let inputLabel = Options[i].querySelector(".Value").querySelector("span"); //goes to each options and go to class = "Value" and under that, goes to <span>
         if(questions[ques_no].options[i] ){
             Options[i].style.display = "";
-            //checkboxLabel.style.display = "";
             
-            inputLabel.textContent = questions[ques_no].input_Text
+            
+            inputLabel.textContent = questions[ques_no].input_Text;
             checkboxLabel.textContent = questions[ques_no].options[i].text;
-            checkbox2.value = questions[ques_no].options[i];
+            checkbox2.value = questions[ques_no].options[i].text;
             checkbox2.checked = false;
             number_input.value = "0";
             Value_select.style.display = "";
         }
         else{
-            //checkboxLabel.style.display = "none";
+            checkbox2.checked = false;
             Options[i].style.display = "none";
         }
     
