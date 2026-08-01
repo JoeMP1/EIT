@@ -37,24 +37,24 @@ const questions = [
 
     {
         key:"food",
-        question:"How often do you eat meat?",
+        question:"What does your meal mostly consist of?",
         options: [
             {
-                text: "Almost everyday",
+                text: "Meat",
                 need_input: true,
             },
 
             {
-                text: "Few times per month",
+                text: "Vegan",
                 need_input: true,
             },
             {
-                text: "Few times per year",
+                text: "Mixed",
                 need_input: true,
             },
             {
-                text: "I dont eat meat",
-                need_input: false,
+                text: "vegetarian",
+                need_input: true,
             }
         ],
         input_Text: "How many times per month?"
@@ -77,24 +77,67 @@ const questions = [
         input_Text: ""
     },
     {
-        key: "test",
-        question:"Testing if 4 options work",
+        key: "takeout",
+        question:"How often do you eat outside?",
         options:[
             {
-                text: "YIPPIE",
+                text: "More than 15 times per month",
                 need_input:false,
             },
 
             {
-                text: "LETS GO",
+                text: "More than 10 times per month",
                 need_input: false,
             },
 
             {
-                text: "Broskie",
+                text: "More than 5 times per month",
                 need_input: false,
+            },
+            {
+                text: "Less or equal to 5 times per month",
+                need_input:false,
             }
         ]
+    },
+    {
+        key: "Car",
+        question:"What type of vehicle do you drive?",
+        options:[
+            {
+                text:"Electric",
+                need_input:false,
+            },
+            {
+                text:"Hybrid",
+                need_input:false,
+            },
+            {
+                text:"Petrol",
+                need_input:false,
+            },
+            {
+                text:"Other (CNG,Ethanol,Diesel etc)",
+                need_input:false,
+            }
+
+        ]
+    },
+    {
+        key: "flight",
+        question:"How often do you fly?",
+        options:[
+            {
+                text:"International",
+                need_input: true,
+            },
+            {
+                text:"Domestic",
+                need_input: true,
+            }
+
+        ],
+        input_Text:"Per year"
     }
     
 ]
