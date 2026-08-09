@@ -143,6 +143,23 @@ const questions = [
 ]
 let answers = {}
 
+//Source: https://www.sciencedirect.com/science/article/abs/pii/S1364032124006774? OR from science direct
+let factor = {
+    travel:{
+        car:{
+            Electric: 170.1, //avg of compact suv and hatchback of BEV
+            Hybrid: 200.55, //avg of compact suv and hatchback of HEV
+            Petrol: 214.9, //avg of compact suv and hatchback of ICEV
+            Other: 143 //this is for ICE CNG from TERI
+        }
+    },
+    //source: https://ourworldindata.org/grapher/ghg-per-kg-poore OR ourworldindata
+    food:{
+        Meat: 11.09, //per kg, avg of Poultry meat and pig meat
+        Vegan: 1.5675 //per kg, avg of rice,tomatoes and all the way down
+    }
+    
+}
 function saveAns(){
     //let selectedAns = [];
     checkbox.forEach((box,index) => {
@@ -160,6 +177,8 @@ function saveAns(){
             console.log("Value: " + answers[questions[question_No].key].value);
             
             console.dir(answers)// very useful for displaying full object
+
+            //console.dir(answers["flight"].value); //we can access the value of flight using this
             
         }
         
@@ -194,7 +213,7 @@ function isCheck(){
         if(box.checked){
             
             //console.log(number_input);
-        
+            
             if(questions[question_No].options[index].need_input && questions[question_No].options[index] ){
                 number_input.style.display = "block";
             }
