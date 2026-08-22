@@ -8,6 +8,8 @@ let checkbox = document.querySelectorAll(".check");
 let label = document.querySelectorAll("label");
 let Options = document.querySelectorAll(".Options");
 
+let use_Car = false
+let skip_Question = true
 let question_No = 0;
 const questions = [
     {
@@ -34,7 +36,6 @@ const questions = [
         ],
         input_Text: "How many Km per day (approx)?"
     },
-
     {
         key:"food",
         question:"What does your meal mostly consist of?",
@@ -151,14 +152,21 @@ let factor = {
             Hybrid: 200.55, //avg of compact suv and hatchback of HEV
             Petrol: 214.9, //avg of compact suv and hatchback of ICEV
             Other: 143 //this is for ICE CNG from TERI
-        }
+        },
+        //i forgot the source lowkey
+        Train: 20,
+        Bus: 100,
+        Walk: 0,
     },
     //source: https://ourworldindata.org/grapher/ghg-per-kg-poore OR ourworldindata
     food:{
-        Meat: 11.09, //per kg, avg of Poultry meat and pig meat
-        Vegan: 1.5675 //per kg, avg of rice,tomatoes and all the way down
-    }
-    
+        Meat: 40, //per kg, avg of Poultry meat,pig meat,beef and lamb & mutton
+        Vegan: 1.5675, //per kg, avg of rice,tomatoes and all the way down
+        mixed:15.6, //per kg,avg of everything
+        vegatarian: 3.72
+    },
+    recycle: -2.5, //save 2.5kg co2/day Source from https://www.scrappzero.com/resources/post/recycling-co2 (idk if its reputed)
+    takeout: 1.5
 }
 function saveAns(){
     //let selectedAns = [];
@@ -174,6 +182,10 @@ function saveAns(){
         //                                                                                  }
         //                                                                              }
             console.log(answers[questions[question_No].key].options);
+            if(answers[questions[question_No].key].options == "Car"){
+                console.log("Skipp!!")
+                skip_Question = false;
+            }
             console.log("Value: " + answers[questions[question_No].key].value);
             
             console.dir(answers)// very useful for displaying full object
@@ -203,7 +215,17 @@ start_btn.addEventListener("click", e =>{
 next_btn.addEventListener("click", e=>{
     saveAns();
     question_No++;
-    next_question(question_No);
+    if(skip_Question == true && question_No == 4){
+        question_No++;
+    }
+    if(question_No <= 5){
+        next_question(question_No);
+    }
+    else{
+        null
+    }
+    calculate(answers["travel"].options)
+    console.log("Question: " + question_No)
 })
 
 
@@ -256,3 +278,14 @@ function next_question(ques_no){
     
 }
 
+function calculate(test){
+    console.log("test")
+    let co2_value = answers["travel"].value;
+    //let calculating = factor["travel"].Train;
+    let calculating = factor["travel"][test]
+    let final = co2_value * calculating;
+    console.log("calculating: "+ calculating)
+    console.log("Final: " + final);
+    console.log("TEST: " + test)
+
+}
