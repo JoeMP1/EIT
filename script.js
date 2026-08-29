@@ -18,19 +18,23 @@ const questions = [
         options: [
             {
                 text: "Car",
+                value: "Car",
                 need_input: true,
             },
 
             {
                 text: "Bus",
+                value: "Bus",
                 need_input: true,
             },
             {
                 text: "Train",
+                value: "Train",
                 need_input: true,
             },
             {
                 text: "Walk",
+                value: "Walk",
                 need_input: true,
             }
         ],
@@ -42,19 +46,23 @@ const questions = [
         options: [
             {
                 text: "Meat",
+                value: "Meat",
                 need_input: true,
             },
 
             {
                 text: "Vegan",
+                value: "Vegan",
                 need_input: true,
             },
             {
                 text: "Mixed",
+                value: "Mixed",
                 need_input: true,
             },
             {
                 text: "vegetarian",
+                value: "vegetarian",
                 need_input: true,
             }
         ],
@@ -67,11 +75,13 @@ const questions = [
         options:[
             {
                 text: "Yes",
+                value: "Yes",
                 need_input:false,
             },
 
             {
                 text: "No",
+                value: "No",
                 need_input: false,
             }
         ],
@@ -83,20 +93,24 @@ const questions = [
         options:[
             {
                 text: "More than 15 times per month",
+                value: "gt15", //it means greater than 15
                 need_input:false,
             },
 
             {
                 text: "More than 10 times per month",
+                value: "gt10",
                 need_input: false,
             },
 
             {
                 text: "More than 5 times per month",
+                value: "gt5",
                 need_input: false,
             },
             {
                 text: "Less or equal to 5 times per month",
+                value: "ltet5", //less than equal to 5
                 need_input:false,
             }
         ]
@@ -107,18 +121,22 @@ const questions = [
         options:[
             {
                 text:"Electric",
+                value: "Electric",
                 need_input:false,
             },
             {
                 text:"Hybrid",
+                value: "Hybrid",
                 need_input:false,
             },
             {
                 text:"Petrol",
+                value: "Petrol",
                 need_input:false,
             },
             {
                 text:"Other (CNG,Ethanol,Diesel etc)",
+                value: "Other",
                 need_input:false,
             }
 
@@ -153,6 +171,7 @@ let factor = {
             Petrol: 214.9, //avg of compact suv and hatchback of ICEV
             Other: 143 //this is for ICE CNG from TERI
         },
+        temp_car: 182.14, //temporary value until the user pick the type of car they use
         //i forgot the source lowkey
         Train: 20,
         Bus: 100,
@@ -166,7 +185,13 @@ let factor = {
         vegatarian: 3.72
     },
     recycle: -2.5, //save 2.5kg co2/day Source from https://www.scrappzero.com/resources/post/recycling-co2 (idk if its reputed)
-    takeout: 1.5
+    //source:https://academic.oup.com/ijlct/article/doi/10.1093/ijlct/ctac069/6673065?
+    takeout:{
+        gt15:37.2315, //2.4821 * 15
+        gt10:24.821, //same logic here, 2.4821 * 10
+        gt5:12.4105, 
+        ltet5:6.205 //2.4821 * 2.5 as it is the midpoint between 1 and 5
+    }
 }
 function saveAns(){
     //let selectedAns = [];
@@ -183,7 +208,7 @@ function saveAns(){
         //                                                                              }
             console.log(answers[questions[question_No].key].options);
             if(answers[questions[question_No].key].options == "Car"){
-                console.log("Skipp!!")
+                
                 skip_Question = false;
             }
             console.log("Value: " + answers[questions[question_No].key].value);
@@ -214,6 +239,9 @@ start_btn.addEventListener("click", e =>{
 
 next_btn.addEventListener("click", e=>{
     saveAns();
+    //calculate(answers["travel"].options)
+    calculate(answers[questions[question_No].key].options)
+    console.log(answers[questions[question_No].key].options)
     question_No++;
     if(skip_Question == true && question_No == 4){
         question_No++;
@@ -224,7 +252,7 @@ next_btn.addEventListener("click", e=>{
     else{
         null
     }
-    calculate(answers["travel"].options)
+
     console.log("Question: " + question_No)
 })
 
@@ -263,7 +291,7 @@ function next_question(ques_no){
             
             inputLabel.textContent = questions[ques_no].input_Text;
             checkboxLabel.textContent = questions[ques_no].options[i].text;
-            checkbox2.value = questions[ques_no].options[i].text;
+            checkbox2.value = questions[ques_no].options[i].value;
             checkbox2.checked = false;
             number_input.value = "0";
             Value_select.style.display = "";
@@ -279,10 +307,18 @@ function next_question(ques_no){
 }
 
 function calculate(test){
-    console.log("test")
+    
     let co2_value = answers["travel"].value;
     //let calculating = factor["travel"].Train;
-    let calculating = factor["travel"][test]
+    let calculating;
+    if(test == "Car"){
+        calculating = factor["travel"].temp_car;
+    }
+    else{
+        //calculating = factor["travel"][test]
+        calculating = factor[questions[question_No].key][test]
+    }
+    
     let final = co2_value * calculating;
     console.log("calculating: "+ calculating)
     console.log("Final: " + final);
