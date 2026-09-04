@@ -267,7 +267,7 @@ function isCheck(){
             
             //console.log(number_input);
             
-            if(questions[question_No].options[index].need_input && questions[question_No].options[index] ){
+            if(questions[question_No].options[index] && questions[question_No].options[index].need_input){ //order is important here, thats why i reversed it as it can cause an error
                 number_input.style.display = "block";
             }
             else{
