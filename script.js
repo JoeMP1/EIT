@@ -181,10 +181,13 @@ let factor = {
     food:{
         Meat: 40, //per kg, avg of Poultry meat,pig meat,beef and lamb & mutton
         Vegan: 1.5675, //per kg, avg of rice,tomatoes and all the way down
-        mixed:15.6, //per kg,avg of everything
-        vegatarian: 3.72
+        Mixed:15.6, //per kg,avg of everything
+        vegetarian: 3.72
     },
-    recycle: -2.5, //save 2.5kg co2/day Source from https://www.scrappzero.com/resources/post/recycling-co2 (idk if its reputed)
+    recycle:{
+        Yes:-2.5,
+        No: 0,
+    }, //save 2.5kg co2/day Source from https://www.scrappzero.com/resources/post/recycling-co2 (idk if its reputed)
     //source:https://academic.oup.com/ijlct/article/doi/10.1093/ijlct/ctac069/6673065?
     takeout:{
         gt15:37.2315, //2.4821 * 15
@@ -305,21 +308,29 @@ function next_question(ques_no){
     Questions.textContent = questions[ques_no].question; //goes to a list, then inside the curly braces and then the variable
     
 }
-
+final = 0;
 function calculate(test){
     
     let co2_value = answers["travel"].value;
     //let calculating = factor["travel"].Train;
     let calculating;
-    if(test == "Car"){
-        calculating = factor["travel"].temp_car;
+    if(test == "Car" || question_No == 4 || question_No == 0){
+        if(question_No ==0){
+            calculating = factor["travel"].temp_car;
+        }
+        else if(question_No == 4){
+            calculating = factor["travel"]["car"][test];
+            console.log("The user chose: " + factor["travel"]["car"][test])
+        }
+        
     }
     else{
         //calculating = factor["travel"][test]
+        console.log("The question number before disaster is: " + question_No)
         calculating = factor[questions[question_No].key][test]
     }
     
-    let final = co2_value * calculating;
+    final += (co2_value * calculating);
     console.log("calculating: "+ calculating)
     console.log("Final: " + final);
     console.log("TEST: " + test)
