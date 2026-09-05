@@ -7,6 +7,9 @@ let Questions = document.querySelector("h2");
 let checkbox = document.querySelectorAll(".check");
 let label = document.querySelectorAll("label");
 let Options = document.querySelectorAll(".Options");
+let errors = document.querySelector(".Error");
+
+errors.style.display = "none";
 
 let use_Car = false
 let skip_Question = true
@@ -148,10 +151,12 @@ const questions = [
         options:[
             {
                 text:"International",
+                value: "International",
                 need_input: true,
             },
             {
                 text:"Domestic",
+                value: "Domestic",
                 need_input: true,
             }
 
@@ -194,7 +199,13 @@ let factor = {
         gt10:24.821, //same logic here, 2.4821 * 10
         gt5:12.4105, 
         ltet5:6.205 //2.4821 * 2.5 as it is the midpoint between 1 and 5
+    },
+    //avg of the most common flight using ICAO carbon emission as the base for calculation
+    flight:{
+        International:208.4,
+        Domestic:179.5
     }
+
 }
 function saveAns(){
     //let selectedAns = [];
@@ -243,9 +254,17 @@ start_btn.addEventListener("click", e =>{
 next_btn.addEventListener("click", e=>{
     saveAns();
     //calculate(answers["travel"].options)
-    calculate(answers[questions[question_No].key].options)
-    console.log(answers[questions[question_No].key].options)
-    question_No++;
+    if(answers[questions[question_No].key]){
+        calculate(answers[questions[question_No].key].options)
+        console.log(answers[questions[question_No].key].options)
+        errors.style.display = "none";
+        question_No++;
+    }
+    else{
+        console.log("Choose something");
+        errors.style.display = "flex";
+    }
+
     if(skip_Question == true && question_No == 4){
         question_No++;
     }
@@ -296,7 +315,7 @@ function next_question(ques_no){
             checkboxLabel.textContent = questions[ques_no].options[i].text;
             checkbox2.value = questions[ques_no].options[i].value;
             checkbox2.checked = false;
-            number_input.value = "0";
+            number_input.value = "1";
             Value_select.style.display = "";
         }
         else{
@@ -311,10 +330,10 @@ function next_question(ques_no){
 final = 0;
 function calculate(test){
     
-    let co2_value = answers["travel"].value;
+    let co2_value = answers[questions[question_No].key].value;
     //let calculating = factor["travel"].Train;
     let calculating;
-    if(test == "Car" || question_No == 4 || question_No == 0){
+    if((test == "Car" && question_No == 0) || question_No == 4 ){
         if(question_No ==0){
             calculating = factor["travel"].temp_car;
         }
