@@ -50,42 +50,52 @@ const questions = [
             {
                 text: "Meat",
                 value: "Meat",
-                need_input: true,
+                need_input: false,
             },
 
             {
                 text: "Vegan",
                 value: "Vegan",
-                need_input: true,
+                need_input: false,
             },
             {
                 text: "Mixed",
                 value: "Mixed",
-                need_input: true,
+                need_input: false,
             },
             {
                 text: "vegetarian",
                 value: "vegetarian",
-                need_input: true,
+                need_input: false,
             }
         ],
         input_Text: "How many times per month?"
     },
     {
         key:"recycle",
-        question:"Do you recycle?",
+        question:"How often do you recycle plastic?",
         
         options:[
             {
-                text: "Yes",
-                value: "Yes",
+                text: "Almost all",  //100%
+                value: "All",
                 need_input:false,
             },
 
             {
-                text: "No",
-                value: "No",
+                text: "Most", //70%
+                value: "Most",
                 need_input: false,
+            },
+            {
+                text: "Some", //40%
+                value: "Some",
+                need_input:false,
+            },
+            {
+                text: "None", //0%
+                value: "None",
+                need_input:false
             }
         ],
         input_Text: ""
@@ -171,39 +181,41 @@ let answers = {}
 let factor = {
     travel:{
         car:{
-            Electric: 170.1, //avg of compact suv and hatchback of BEV
-            Hybrid: 200.55, //avg of compact suv and hatchback of HEV
-            Petrol: 214.9, //avg of compact suv and hatchback of ICEV
-            Other: 143 //this is for ICE CNG from TERI
+            Electric: 0.1701, //avg of compact suv and hatchback of BEV, the unit is now kg co2/km per day
+            Hybrid: 0.20055, //avg of compact suv and hatchback of HEV, the unit is now kg co2/km
+            Petrol: 0.2149, //avg of compact suv and hatchback of ICEV, the unit is now kg co2/km
+            Other: 0.143 //this is for ICE CNG from TERI, the unit is now kg co2/km
         },
-        temp_car: 182.14, //temporary value until the user pick the type of car they use
+        temp_car: 0.18214, //temporary value until the user pick the type of car they use, the unit is now kg co2/km
         //i forgot the source lowkey
         Train: 20,
         Bus: 100,
         Walk: 0,
     },
-    //source: https://ourworldindata.org/grapher/ghg-per-kg-poore OR ourworldindata
+    //source: https://www.fao.org/gift-individual-food-consumption/data?country=INDIA OR FAO/GIFT
     food:{
-        Meat: 40, //per kg, avg of Poultry meat,pig meat,beef and lamb & mutton
-        Vegan: 1.5675, //per kg, avg of rice,tomatoes and all the way down
-        Mixed:15.6, //per kg,avg of everything
-        vegetarian: 3.72
+        Meat: 36.5, //kg of co2/ year
+        Vegan: 226.3, //kg of co2/year
+        Mixed:434.35, //kg of co2/year
+        vegetarian: 219 //kg of co2/year
     },
     recycle:{
-        Yes:-2.5,
-        No: 0,
-    }, //save 2.5kg co2/day Source from https://www.scrappzero.com/resources/post/recycling-co2 (idk if its reputed)
+        All:-0.6, //kg of co2 avoided per kg of plastic recycle for all the 4
+        Most: -0.4,
+        Some: -0.2,
+        None: 0,
+    }, 
     //source:https://academic.oup.com/ijlct/article/doi/10.1093/ijlct/ctac069/6673065?
     takeout:{
-        gt15:37.2315, //2.4821 * 15
-        gt10:24.821, //same logic here, 2.4821 * 10
-        gt5:12.4105, 
-        ltet5:6.205 //2.4821 * 2.5 as it is the midpoint between 1 and 5
+        gt15:446.778, //2.4821 * 15 * 12 (where 12 is the total month in a year)
+        gt10:297.852, //same logic here, 2.4821 * 10 * 12
+        gt5:148.926, // 2.4821 * 5 * 12
+        ltet5:74.463 //2.4821 * 2.5 as it is the midpoint between 1 and 5, * 12
     },
     //avg of the most common flight using ICAO carbon emission as the base for calculation
     flight:{
-        International:208.4,
-        Domestic:179.5
+        International:208.4, //kg of co2/journey (including return)
+        Domestic:179.5 //kg of co2/journey (including return)
     }
 
 }
@@ -327,7 +339,7 @@ function next_question(ques_no){
     Questions.textContent = questions[ques_no].question; //goes to a list, then inside the curly braces and then the variable
     
 }
-final = 0;
+let final = 0;
 function calculate(test){
     
     let co2_value = answers[questions[question_No].key].value;
