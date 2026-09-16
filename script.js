@@ -11,9 +11,10 @@ let errors = document.querySelector(".Error");
 
 errors.style.display = "none";
 
-let use_Car = false
-let skip_Question = true
+let use_Car = false;
+let skip_Question = true;
 let question_No = 0;
+let temp;
 const questions = [
     {
         key:"travel",
@@ -41,7 +42,7 @@ const questions = [
                 need_input: true,
             }
         ],
-        input_Text: "How many Km per day (approx)?"
+        input_Text: "How many Km per year (approx)?"
     },
     {
         key:"food",
@@ -181,15 +182,15 @@ let answers = {}
 let factor = {
     travel:{
         car:{
-            Electric: 0.1701, //avg of compact suv and hatchback of BEV, the unit is now kg co2/km per day
+            Electric: 0.1701, //avg of compact suv and hatchback of BEV, the unit is now kg co2/km 
             Hybrid: 0.20055, //avg of compact suv and hatchback of HEV, the unit is now kg co2/km
             Petrol: 0.2149, //avg of compact suv and hatchback of ICEV, the unit is now kg co2/km
             Other: 0.143 //this is for ICE CNG from TERI, the unit is now kg co2/km
         },
         temp_car: 0.18214, //temporary value until the user pick the type of car they use, the unit is now kg co2/km
-        //i forgot the source lowkey
-        Train: 20,
-        Bus: 100,
+        //source: https://www.tatasustainability.com/Environment/CarbonCalculator?
+        Train: 0.0078, //kg of co2/km (/day for me)
+        Bus: 0.054, //kg of co2/km (/day for me)
         Walk: 0,
     },
     //source: https://www.fao.org/gift-individual-food-consumption/data?country=INDIA OR FAO/GIFT
@@ -345,12 +346,15 @@ function calculate(test){
     let co2_value = answers[questions[question_No].key].value;
     //let calculating = factor["travel"].Train;
     let calculating;
+
     if((test == "Car" && question_No == 0) || question_No == 4 ){
         if(question_No ==0){
             calculating = factor["travel"].temp_car;
+            temp = answers.travel.value * factor["travel"].temp_car;
         }
         else if(question_No == 4){
-            calculating = factor["travel"]["car"][test];
+            calculating = (answers.travel.value *factor["travel"]["car"][test]) - temp;
+            console.log("THE TEMP IS = " + temp)
             console.log("The user chose: " + factor["travel"]["car"][test])
         }
         
