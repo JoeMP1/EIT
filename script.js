@@ -8,13 +8,16 @@ let checkbox = document.querySelectorAll(".check");
 let label = document.querySelectorAll("label");
 let Options = document.querySelectorAll(".Options");
 let errors = document.querySelector(".Error");
+let results = document.querySelector(".Results");
 
 errors.style.display = "none";
+results.style.display = "none";
 
 let use_Car = false;
 let skip_Question = true;
 let question_No = 0;
 let temp;
+let Max_Question_No = 6;
 const questions = [
     {
         key:"travel",
@@ -78,28 +81,18 @@ const questions = [
         
         options:[
             {
-                text: "Almost all",  //100%
-                value: "All",
-                need_input:false,
+                text: "I recycle my plastic",  
+                value: "Yes",
+                need_input:true,
             },
 
             {
-                text: "Most", //70%
-                value: "Most",
+                text: "I dont recycle my plastic", 
+                value: "No",
                 need_input: false,
-            },
-            {
-                text: "Some", //40%
-                value: "Some",
-                need_input:false,
-            },
-            {
-                text: "None", //0%
-                value: "None",
-                need_input:false
             }
         ],
-        input_Text: ""
+        input_Text: "How many kg do you recycle per year?"
     },
     {
         key: "takeout",
@@ -201,10 +194,8 @@ let factor = {
         vegetarian: 219 //kg of co2/year
     },
     recycle:{
-        All:-0.6, //kg of co2 avoided per kg of plastic recycle for all the 4
-        Most: -0.4,
-        Some: -0.2,
-        None: 0,
+        Yes:-0.6, //kg of co2 avoided per kg of plastic recycle 
+        No:0
     }, 
     //source:https://academic.oup.com/ijlct/article/doi/10.1093/ijlct/ctac069/6673065?
     takeout:{
@@ -284,8 +275,12 @@ next_btn.addEventListener("click", e=>{
     if(question_No <= 5){
         next_question(question_No);
     }
-    else{
-        null
+    if(question_No == 6){
+        Questions.textContent = "Result";
+        options_container.style.display = "none";
+        next_btn.textContent = "Start Again";
+        results.style.display = "flex";
+        results.querySelector("p").textContent = final;
     }
 
     console.log("Question: " + question_No)
