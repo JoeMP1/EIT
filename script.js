@@ -9,6 +9,8 @@ let label = document.querySelectorAll("label");
 let Options = document.querySelectorAll(".Options");
 let errors = document.querySelector(".Error");
 let results = document.querySelector(".Results");
+let Charts = document.createElement("div");
+Charts.className = "Charts";
 
 errors.style.display = "none";
 results.style.display = "none";
@@ -169,8 +171,8 @@ const questions = [
     }
     
 ]
-let answers = {}
-
+let answers = {} //for storing user answers
+let breakdown = {} //for calculation
 //Source: https://www.sciencedirect.com/science/article/abs/pii/S1364032124006774? OR from science direct
 let factor = {
     travel:{
@@ -217,6 +219,7 @@ function saveAns(){
         let Number_Value = box.parentElement.parentElement.querySelector(".Number-value").value
         if(box.checked){
             answers[questions[question_No].key] = {}
+            breakdown[questions[question_No].key] = {}
             answers[questions[question_No].key].options = box.value
             answers[questions[question_No].key].value = Number_Value //eg. answers.travel.value => answers{
         //                                                                              travel {
@@ -232,6 +235,7 @@ function saveAns(){
             console.log("Value: " + answers[questions[question_No].key].value);
             
             console.dir(answers)// very useful for displaying full object
+            console.dir(breakdown)
 
             //console.dir(answers["flight"].value); //we can access the value of flight using this
             
@@ -276,11 +280,20 @@ next_btn.addEventListener("click", e=>{
         next_question(question_No);
     }
     if(question_No == 6){
+        
         Questions.textContent = "Result";
         options_container.style.display = "none";
         next_btn.textContent = "Start Again";
         results.style.display = "flex";
         results.querySelector("p").textContent = final;
+        console.log(Object.keys(breakdown)); // useful for checking whether car will come or not
+        let categories = Object.keys(breakdown);
+        for(let i = 0; i < categories.length; i++){
+            let para = document.createElement("p");
+            para.textContent = categories[i] +" : " + breakdown[categories[i]].options
+            results.append(para);
+        }
+        results.append(Charts);
     }
 
     console.log("Question: " + question_No)
@@ -361,6 +374,7 @@ function calculate(test){
     }
     
     final += (co2_value * calculating);
+    breakdown[questions[question_No].key].options =  Math.abs(calculating.toFixed(2) *co2_value);
     console.log("calculating: "+ calculating)
     console.log("Final: " + final);
     console.log("TEST: " + test)

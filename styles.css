@@ -113,3 +113,6 @@ button{
     justify-content: center;
     align-items: center;
 }
+.Results p{
+    font-weight: bold;
+}
