@@ -286,14 +286,48 @@ next_btn.addEventListener("click", e=>{
         next_btn.textContent = "Start Again";
         results.style.display = "flex";
         results.querySelector("p").textContent = final;
-        console.log(Object.keys(breakdown)); // useful for checking whether car will come or not
-        let categories = Object.keys(breakdown);
-        for(let i = 0; i < categories.length; i++){
+        
+        let category = Object.keys(breakdown);// useful for checking whether car will come or not
+        console.log(category); 
+        let datas = [];
+        
+        for(let i = 0; i < category.length; i++){
             let para = document.createElement("p");
-            para.textContent = categories[i] +" : " + breakdown[categories[i]].options
+            para.textContent = category[i] +" : " + breakdown[category[i]].options //the "options" is actually a value
+
+            datas.push(breakdown[category[i]].options)
             results.append(para);
         }
         results.append(Charts);
+ 
+        var options_graph = {
+            chart: {
+              type: 'bar',
+              height: 350,
+              width: 500
+            },
+            title:{
+                text: "Carbon Emission"
+            },
+            series: [{
+              name:"Kg of CO2",
+              data: datas
+            }],
+            plotOptions:{
+                bar:{
+                    horizontal: true
+                }
+            },
+            xaxis: {
+              categories: category,
+              labels:{
+                hideOverlappingLabels: false
+              }
+            }
+          }
+        
+          var chart = new ApexCharts(document.querySelector(".Charts"), options_graph)
+          chart.render()
     }
 
     console.log("Question: " + question_No)
