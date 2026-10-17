@@ -260,9 +260,17 @@ start_btn.addEventListener("click", e =>{
 })
 
 next_btn.addEventListener("click", e=>{
-    saveAns();
+
+    if(next_btn.textContent == "Start Again"){
+        location.reload();
+        return
+    }
+    if(next_btn.textContent != "Start Again"){
+        saveAns();
+    }
+
     //calculate(answers["travel"].options)
-    if(answers[questions[question_No].key]){
+    if(answers[questions[question_No].key] && answers[questions[question_No].key].value.trim() != ""){
         calculate(answers[questions[question_No].key].options)
         console.log(answers[questions[question_No].key].options)
         errors.style.display = "none";
@@ -286,7 +294,7 @@ next_btn.addEventListener("click", e=>{
         next_btn.textContent = "Start Again";
         results.style.display = "flex";
         results.querySelector("p").textContent = final;
-        
+        delete breakdown["Car"];
         let category = Object.keys(breakdown);// useful for checking whether car will come or not
         console.log(category); 
         let datas = [];
@@ -329,7 +337,7 @@ next_btn.addEventListener("click", e=>{
           var chart = new ApexCharts(document.querySelector(".Charts"), options_graph)
           chart.render()
     }
-
+    console.log(next_btn.textContent)
     console.log("Question: " + question_No)
 })
 
@@ -395,7 +403,10 @@ function calculate(test){
             temp = answers.travel.value * factor["travel"].temp_car;
         }
         else if(question_No == 4){
-            calculating = (answers.travel.value *factor["travel"]["car"][test]) - temp;
+            calculating = factor["travel"]["car"][test];
+            final -= temp;
+            calculating = answers.travel.value * calculating;
+            breakdown["travel"]["options"] = calculating 
             console.log("THE TEMP IS = " + temp)
             console.log("The user chose: " + factor["travel"]["car"][test])
         }
@@ -403,12 +414,14 @@ function calculate(test){
     }
     else{
         //calculating = factor["travel"][test]
-        console.log("The question number before disaster is: " + question_No)
+        
         calculating = factor[questions[question_No].key][test]
     }
     
     final += (co2_value * calculating);
-    breakdown[questions[question_No].key].options =  Math.abs(calculating.toFixed(2) *co2_value);
+    if(question_No != 4){
+        breakdown[questions[question_No].key].options = (calculating*co2_value).toFixed(2) ;
+    }
     console.log("calculating: "+ calculating)
     console.log("Final: " + final);
     console.log("TEST: " + test)
