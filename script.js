@@ -227,15 +227,15 @@ function saveAns(){
         //                                                                                     value: 25
         //                                                                                  }
         //                                                                              }
-            console.log(answers[questions[question_No].key].options);
+            //console.log(answers[questions[question_No].key].options);
             if(answers[questions[question_No].key].options == "Car"){
                 
                 skip_Question = false;
             }
-            console.log("Value: " + answers[questions[question_No].key].value);
+            //console.log("Value: " + answers[questions[question_No].key].value);
             
-            console.dir(answers)// very useful for displaying full object
-            console.dir(breakdown)
+            //console.dir(answers)// very useful for displaying full object
+            //console.dir(breakdown)
 
             //console.dir(answers["flight"].value); //we can access the value of flight using this
             
@@ -254,7 +254,7 @@ start_btn.addEventListener("click", e =>{
     else{
         start_btn.innerHTML = "Start";
         Display.style.display = "none";
-        console.log("not working");
+        //console.log("not working");
     }
     
 })
@@ -272,12 +272,12 @@ next_btn.addEventListener("click", e=>{
     //calculate(answers["travel"].options)
     if(answers[questions[question_No].key] && answers[questions[question_No].key].value.trim() != ""){
         calculate(answers[questions[question_No].key].options)
-        console.log(answers[questions[question_No].key].options)
+        //console.log(answers[questions[question_No].key].options)
         errors.style.display = "none";
         question_No++;
     }
     else{
-        console.log("Choose something");
+       
         errors.style.display = "flex";
     }
 
@@ -312,7 +312,7 @@ next_btn.addEventListener("click", e=>{
             chart: {
               type: 'bar',
               height: 350,
-              width: 500
+              width: "100%"
             },
             title:{
                 text: "Carbon Emission"
@@ -331,14 +331,24 @@ next_btn.addEventListener("click", e=>{
               labels:{
                 hideOverlappingLabels: false
               }
-            }
+            },
+            responsive:[ 
+                {
+                    breakpoint:460,
+                    options:{
+                        chart:{
+                            width:"100%"
+                        }
+                    }
+
+            }]
           }
         
           var chart = new ApexCharts(document.querySelector(".Charts"), options_graph)
           chart.render()
     }
-    console.log(next_btn.textContent)
-    console.log("Question: " + question_No)
+    //console.log(next_btn.textContent)
+    //console.log("Question: " + question_No)
 })
 
 
@@ -407,8 +417,8 @@ function calculate(test){
             final -= temp;
             calculating = answers.travel.value * calculating;
             breakdown["travel"]["options"] = calculating 
-            console.log("THE TEMP IS = " + temp)
-            console.log("The user chose: " + factor["travel"]["car"][test])
+           // console.log("THE TEMP IS = " + temp)
+            //console.log("The user chose: " + factor["travel"]["car"][test])
         }
         
     }
@@ -422,8 +432,8 @@ function calculate(test){
     if(question_No != 4){
         breakdown[questions[question_No].key].options = (calculating*co2_value).toFixed(2) ;
     }
-    console.log("calculating: "+ calculating)
-    console.log("Final: " + final);
-    console.log("TEST: " + test)
+    //console.log("calculating: "+ calculating)
+   // console.log("Final: " + final);
+    //console.log("TEST: " + test)
 
 }

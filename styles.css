@@ -81,6 +81,7 @@ button{
     display: flex;
     flex-direction: column;
     padding: 15px;
+    box-sizing: border-box;
 }
 
 .Next{
@@ -117,4 +118,8 @@ button{
 }
 .Results p{
     font-weight: bold;
+}
+.Charts{
+    width: 100%;
+    overflow: hidden;
 }
